@@ -28,11 +28,11 @@ const ClientSchema = new Schema({
         required: true,
         unique: true
     },
-   /* dateOfBirth:{
+   dateOfBirth:{
         type: Date,
-        require: false,//true olarak değişecek
+        require: true,//true olarak değişecek
         default: Date.now
-    },*/
+    },
     city: {
         type: String,
         require: true

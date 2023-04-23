@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 require('dotenv').config();
 const path = require('path');
+const { decode } = require("punycode");
 
 
 
@@ -236,18 +237,21 @@ const psychologistController = {
             const psyc = await psychologistModel.aggregate([
                 {
                     $match: {
-                        eMail: req.body.email
+                        eMail: req.query.email
                     }
                 },
                 {
                     $project: {
-                        _id: 1
-                    }
+                        _id: 1,
+                        pass:1
+                    },
+                    
                 }
             ]);
             const token = jwt.sign({
                 psyc
             }, process.env.SECRET_KEY_LOGER, {expiresIn:'6h'})
+            
             if(psyc==''){
                 res.json({
                     status: false,
@@ -263,20 +267,24 @@ const psychologistController = {
                 status: false,
                 err
             })
+            
         }
     },
-    passUpdate: async(req,res) => {
+   /*passUpdate: async(req,res) => {
         try{
             const decoded = jwt.verify(req.body.token, process.env.SECRET_KEY_LOGER);
-            console.log(decoded.psyc_id)
+            console.log(decoded)
             let compare = bcrypt.compareSync(req.body.passold, psychologist.pass);
             console.log(compare)
             if(compare){
-                const psyc = await psychologistModel.findByIdAndUpdate(decoded.psyc._id, {pass:req.body.pass}, {new:true})
+                const pass = req.body.pass
+                let passHash = await bcrypt.hash(pass, 8);
+                const psyc = await psychologistModel.findByIdAndUpdate(decoded.psychologist._id, {pass:passHash}, {new:true})
 
                 res.json({
                     status: true,
-                    message: "Pass Update"
+                    message: "Pass Update",
+                    psyc
                 })
             }else{
                 res.json({
@@ -293,7 +301,77 @@ const psychologistController = {
                 err
             })
         }
+    },*/
+    passUpdate: async(req,res) => {
+        try{
+            const decoded = jwt.verify(req.body.token, process.env.SECRET_KEY_LOGER);
+            console.log(decoded)
+            const psychologist = await psychologistModel.findById(decoded.psychologist._id);
+            let compare = bcrypt.compareSync(req.body.passold, psychologist.pass);
+            console.log(compare)
+            if(compare){
+                const pass = req.body.pass
+                let passHash = await bcrypt.hash(pass, 8);
+                const psyc = await psychologistModel.findByIdAndUpdate(decoded.psychologist._id, {pass:passHash}, {new:true})
+
+                res.json({
+                    status: true,
+                    message: "Pass Update",
+                    psyc
+                })
+            }else{
+                res.json({
+                    status: false,
+                    message: 'Pass Not Update Wrong Data'
+                })
+            }
+            
+        }catch(err){
+            res.json({
+                status: false,
+                message: "Pass Not Updated",
+                err
+            })
+        }
     },
+
+    passReset: async (req, res) => {
+        try {
+            const decoded = jwt.verify(req.body.token, process.env.SECRET_KEY_LOGER);
+           console.log(decoded.psyc[0])
+        
+           
+            const psychologist = await psychologistModel.findById(decoded.psyc[0]._id);
+
+            
+           
+          
+             
+                const pass = req.body.pass
+                let passHash = await bcrypt.hash(pass, 8);
+                const psyc = await psychologistModel.findByIdAndUpdate(decoded.psyc[0]._id, {pass:passHash}, {new:true})
+                
+                res.json({
+                    status: true,
+                    message: "Pass Update",
+                    psyc
+                    
+                })
+              
+                
+            
+                
+        } catch (err) {
+            res.json({
+                status: false,
+                message: "Pass Not Updated",
+                err:err.message
+                
+            })
+        }
+    },
+
+    
     test: async(req, res) => {
         try{
             upload(req, res, (err) => {

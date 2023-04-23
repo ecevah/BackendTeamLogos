@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const clientModel = require("./clientModel.js");
 const nodemailer = require('nodemailer');
-const psycModel = require('../psychologist/psychologistModel.js')
+const psycModel = require('../psychologist/psychologistModel.js');
+const path = require('path');
 
 
 require('dotenv').config();
@@ -119,10 +120,10 @@ const clientController = {
         }
 
     },
-    create: async(req, res) => {
+    /*create: async(req, res) => {
         try {
             
-            const { name, surname, pass, email,/*birth*/ city, county, job, about,sex,image} = req.body;
+            const { name, surname, pass, email,*//*birth*//* city, county, job, about,sex,image} = req.body;
             let passHash = await bcrypt.hash(pass, 8);
             //const date = new Date(birth);
             const client = await ClientModel.create({
@@ -154,8 +155,8 @@ const clientController = {
                 err: err
             })
         }
-    },
-    dcreate: async(req, res) => {
+    },*/
+    create: async(req, res) => {
         try {
           const storage = multer.diskStorage({
             destination: function (req, file, cb) {
@@ -175,10 +176,11 @@ const clientController = {
                 error: err
               })
             } else {
-              const { name, surname, pass, email,/*birth*/ city, county, job, about,sex} = req.body;
+              const { name,birth, surname, pass, email, city, county, job, about,sex} = req.body;
+              console.log(req.body);
               const image= req.file.filename;
               let passHash = await bcrypt.hash(pass, 8);
-              //const date = new Date(birth);
+              const date = new Date(birth);
               const client = await ClientModel.create({
                 name,
                 surName: surname,
@@ -192,13 +194,11 @@ const clientController = {
                 sex,
                 image:image
               });
-              const token = jwt.sign({
-                client
-              }, process.env.SECRET_KEY_LOGER, {expiresIn:'6h'})
+              
               res.json({
                 status: true,
                 message: 'Added',
-                token,
+                
                 client
               })
             }

@@ -8,7 +8,7 @@ router.put('/update',psychologistController.update)
 router.get('/test',psychologistController.test);
 router.get('/find',psychologistController.findSpecific);
 router.get('/find/:id',psychologistController.find);
-router.put('/reset', psychologistController.passUpdate);
+router.put('/passupdate', psychologistController.passUpdate);
 router.post('/createStar',psychologistController.createStar);
 router.get('/siraStarAvg', psychologistController.siraStarAvg);
 router.get('/active/find',psychologistController.activeFind);

@@ -4,13 +4,14 @@ const clientController = require('../client/clientController');
 const psychologistController = require('../psychologist/psychologistController');
 const noTokenController = require('./noTokenController');
 
-router.post(`/client/add`, clientController.dcreate);
+router.post(`/client/add`, clientController.create);
 router.post(`/psyc/add`, psychologistController.create);
 router.post(`/client/login`, clientController.login);
 router.post(`/psyc/login`, psychologistController.login);
-router.get('/client/reset', clientController.findMail);
-router.get('/psyc/reset', psychologistController.findMail);
+router.get('/client/reset1', clientController.findMail);
+router.get('/psyc/reset1', psychologistController.findMail);
 router.get('/psyc/test', psychologistController.test);
 router.get('/mail', noTokenController.mail)
+router.put('/psyc/passReset',psychologistController.passReset);
  
 module.exports = router;
