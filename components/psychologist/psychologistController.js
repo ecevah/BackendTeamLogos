@@ -26,12 +26,6 @@ const psychologistController = {
 
             if (compare) {
                 if(psychologist.accActive){
-                    res.json({
-                        status: true,
-                        active: false,
-                        message: 'Login Unsuccessful'
-                    })
-                }else{
                     const token = jwt.sign({
                         psychologist,
                     }, process.env.SECRET_KEY_LOGER, {})
@@ -43,6 +37,12 @@ const psychologistController = {
                         message: 'Login Succesful',
                         token: token,
                         psychologist
+                    })
+                }else{
+                    res.json({
+                        status: true,
+                        active: false,
+                        message: 'Login Unsuccessful'
                     })
                 }
             } else {
@@ -487,26 +487,26 @@ const psychologistController = {
     },
     activeUpdate: async(req,res) =>{
         try {
-            const psychologist = await psychologistModel.findById(req.body.id);
+            const psychologist = await psychologistModel.findById(req.query.id);
             if (!psychologist) {
-              return res.status(404).json({
+              return res.status.json({
                 status: false,
-                message: `${req.body.id} not found`
+                message: `${req.query.id} not found`
               });
             }
-            psychologist.active = !psychologist.active;
+            psychologist.active = req.query.active;
             await psychologist.save();
             res.json({
               status: true,
-              message: `${req.body.id} Active Updated`,
+              message: `${req.query.id} Active Updated`,
               psychologist
             });
           
           } catch (err) {
             console.error(err);
-            res.status(500).json({
+            res.status.json({
               status: false,
-              message: `${req.body.id} Active Not Updated`,
+              message: `${req.query.id} Active Not Updated`,
               error: err.message
             });
           }
