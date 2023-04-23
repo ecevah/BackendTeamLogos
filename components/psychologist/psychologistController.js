@@ -494,14 +494,23 @@ const psychologistController = {
                 message: `${req.query.id} not found`
               });
             }
-            psychologist.active = req.query.active;
-            await psychologist.save();
-            res.json({
-              status: true,
-              message: `${req.query.id} Active Updated`,
-              psychologist
-            });
-          
+            if(req.query.active==='spes'){
+                psychologist.active = !psychologist.active;
+                await psychologist.save();
+                res.json({
+                status: true,
+                message: `${req.query.id} Active Updated`,
+                psychologist
+                });
+            }else{
+                psychologist.active = req.query.active;
+                await psychologist.save();
+                res.json({
+                status: true,
+                message: `${req.query.id} Active Updated`,
+                psychologist
+                });
+            }          
           } catch (err) {
             console.error(err);
             res.status.json({
