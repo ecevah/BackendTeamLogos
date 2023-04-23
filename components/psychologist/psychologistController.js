@@ -25,17 +25,26 @@ const psychologistController = {
             let compare = bcrypt.compareSync(req.body.pass, psychologist.pass);
 
             if (compare) {
-                const token = jwt.sign({
-                    psychologist,
-                }, process.env.SECRET_KEY_LOGER, {})
-
-
-                res.json({
-                    status: true,
-                    message: 'Login Succesful',
-                    token: token,
-                    psychologist
-                })
+                if(psychologist.accActive){
+                    res.json({
+                        status: true,
+                        active: false,
+                        message: 'Login Unsuccessful'
+                    })
+                }else{
+                    const token = jwt.sign({
+                        psychologist,
+                    }, process.env.SECRET_KEY_LOGER, {})
+    
+    
+                    res.json({
+                        status: true,
+                        active: true,
+                        message: 'Login Succesful',
+                        token: token,
+                        psychologist
+                    })
+                }
             } else {
                 res.json({
                     status: false,

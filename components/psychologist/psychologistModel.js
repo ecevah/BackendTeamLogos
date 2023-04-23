@@ -62,6 +62,10 @@ const PsychologistSchema = new Schema({
     active: {
         type: Boolean,
         default: false
+    },
+    accActive: {
+        type: Boolean,
+        default: false
     }
 });
 
