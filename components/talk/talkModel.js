@@ -18,18 +18,84 @@ const talkSchema = new Schema({
     },
     emo: [
         {
+          anger: {
+            count: {
+            type: Number
+          },
+          text: {
+            type: String,
+            default:'Kızgın'
+          }
+        },
+        happy:{
+          count:{
+            type: Number
+          },
+          text:{
+            type:String,
+            default:'Mutlu'
+          }
+        },
+        fear:{
+          count:{
+            type: Number
+          },
+          text:{
+            type:String,
+            default:'Korkmak'
+          }
+        },
+        disgust:{
+          count:{
+            type: Number
+          },
+          text:{
+            type:String,
+            default:'İğrenmek'
+          }
+        },
+        sad:{
+          count:{
+            type: Number
+          },
+          text:{
+            type:String,
+            default: 'Üzgün'
+          }
+        },
+        surprised:{
+          count:{
+            type: Number
+          },
+          text:{
+            type:String,
+            default: 'Şaşırmak'
+          }
+        },
+        neutral:{
+          count:{
+            type: Number
+          },
+          text:{
+            type:String,
+            default: ' Nötr'
+          }
+        },
+
+        
+        }
+      ],
+      
+      word: [
+        {
           count: {
             type: Number
           },
-          emotion: {
+          root: {
             type: String
           }
         }
       ],
-      
-    word:{
-        type:String
-    },
     comment:{
         type:String
     }

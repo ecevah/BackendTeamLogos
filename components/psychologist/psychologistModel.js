@@ -6,14 +6,20 @@ const Schema = mongoose.Schema;
 const PsychologistSchema = new Schema({
     name:{
         type: String,
+        maxLength:60,
+        minLength: 5,
         required:true
     },
     surName:{
         type: String,
+        maxLength:60,
+        minLength: 5,
         required:true
     },
     pass:{
         type: String,
+        maxLength:60,
+        minLength: 5,
         required:true
     },
     eMail:{

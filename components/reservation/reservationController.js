@@ -214,7 +214,8 @@ const reservationController ={
                   name: item.client_id.name,
                   surName: item.client_id.surName,
                   dateOfBirth: item.client_id.dateOfBirth,
-                  sex: item.client_id.sex
+                  sex: item.client_id.sex,
+                  image:item.client_id.image
                 }
               }));
               if(reservationObjects===[]){
@@ -264,6 +265,7 @@ const reservationController ={
           }
       }
         const { day,client_id, psyc_id, limit, skip, sort_by, sort_order, select_fields } = req.query;
+        console.log(client_id)
         const today = new Date();
         const date = new Date(today);
         date.setDate(today.getDate() - 1);
@@ -307,14 +309,16 @@ const reservationController ={
               unvan: item.psyc_id.unvan,
               name: item.psyc_id.name,
               surName: item.psyc_id.surName,
-              tag: item.psyc_id.tag
+              tag: item.psyc_id.tag,
+              image:item.psyc_id.image
             },
             client_id: {
               _id: item.client_id._id,
               name: item.client_id.name,
               surName: item.client_id.surName,
               dateOfBirth: item.client_id.dateOfBirth,
-              sex: item.client_id.sex
+              sex: item.client_id.sex,
+              image:item.client_id.image
             },
             type: 0
           }:null:{
@@ -326,14 +330,16 @@ const reservationController ={
               unvan: item.psyc_id.unvan,
               name: item.psyc_id.name,
               surName: item.psyc_id.surName,
-              tag: item.psyc_id.tag
+              tag: item.psyc_id.tag,
+              image:item.psyc_id.image
             },
             client_id: {
               _id: item.client_id._id,
               name: item.client_id.name,
               surName: item.client_id.surName,
               dateOfBirth: item.client_id.dateOfBirth,
-              sex: item.client_id.sex
+              sex: item.client_id.sex,
+              image:item.client_id.image
             },
             type: 0
           })).filter((item) => item !== null);
@@ -415,7 +421,8 @@ const reservationController ={
               name: item.client_id.name,
               surName: item.client_id.surName,
               dateOfBirth: item.client_id.dateOfBirth,
-              sex: item.client_id.sex
+              sex: item.client_id.sex,
+              image:item.client_id.image
             },
             type: 0
           }: null:{
@@ -434,7 +441,8 @@ const reservationController ={
               name: item.client_id.name,
               surName: item.client_id.surName,
               dateOfBirth: item.client_id.dateOfBirth,
-              sex: item.client_id.sex
+              sex: item.client_id.sex,
+              image:item.client_id.image
             },
             type: 0
           })).filter((item) => item !== null);
@@ -502,7 +510,8 @@ const reservationController ={
                   name: item.client_id.name,
                   surName: item.client_id.surName,
                   dateOfBirth: item.client_id.dateOfBirth,
-                  sex: item.client_id.sex
+                  sex: item.client_id.sex,
+                  image:item.client_id.image
                 }
               }));
               if(reservationObjects===[]){

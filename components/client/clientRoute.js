@@ -14,4 +14,5 @@ router.put('/favori/delete', ClientController.favoridelete);
 router.post('/resim', ClientController.deneme);
 
 
+
 module.exports = router;

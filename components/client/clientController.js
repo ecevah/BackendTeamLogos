@@ -406,7 +406,9 @@ const clientController = {
         err: err
         });
     }
-    }
+    },
+    
+
 }
 
 module.exports = clientController;

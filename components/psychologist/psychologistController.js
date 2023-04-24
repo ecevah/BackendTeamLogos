@@ -575,7 +575,23 @@ const psychologistController = {
         err
         });
     }
-    }
+    },
+    adminupdate: async(req, res) => {
+        try {
+            const psyc = await psychologistModel.findByIdAndUpdate(req.params.id ,{accActive:true}, { new: true });
+            res.json({
+                status: true,
+                message: `${req.params.id} Updated`,
+                value: { psyc }
+            })
+        } catch (err) {
+            res.json({
+                status: false,
+                message: "Data not update",
+                err: err
+            })
+        }
+    },
 
 }
 

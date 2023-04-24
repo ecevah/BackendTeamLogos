@@ -14,5 +14,6 @@ router.get('/siraStarAvg', psychologistController.siraStarAvg);
 router.get('/active/find',psychologistController.activeFind);
 router.put('/active/update',psychologistController.activeUpdate);
 router.post('/deneme',psychologistController.deneme);
+router.put('/adminupdate/:id', psychologistController.adminupdate);
 
 module.exports = router;
