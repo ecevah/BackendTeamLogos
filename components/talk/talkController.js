@@ -5,21 +5,15 @@ const talkController = {
     add: async(req, res) => {
         
         try {
-            const { reservation,meetTime,Talk,emo,word,comment} = req.body;
+            const { reservation_id,meetTime,Talk,word,comment} = req.body;
             
             const talk = await talkModel.create({              
-               reservation_id:reservation,
-               meetTime:meetTime,
-               Talk,
-               emo:emo,
-               word,
-               comment
-            
+               reservation_id
             });
             res.json({
                 status: true,
                 message: 'Added',
-                value: { talk }
+                talk
             })
         } catch (err) {
             res.json({
@@ -78,102 +72,68 @@ const talkController = {
         }
     },
     put: async (req,res ) => {
-        try{
-            const talk = await talkModel.aggregate([
-                {
-                    $match: {
-                        reservation_id: new mongoose.Types.ObjectId(req.query.reservation_id)
-                    }
-                },
-               
-               
-            ]);
-
-
-         
-        }catch (err){
-            res.json({
-                status: false,
-                err: err.message
+        const { meetTime, Talk, angry, sad, happy, suprised, disgust, fear, neutral, word, comment } = req.body;
+        function findUniqueWordsWithCounts(arr) {
+            const counts = {};
+            
+            // Dizideki her kelimenin sayısını hesapla
+            arr.forEach(word => {
+              counts[word] = counts[word] ? counts[word] + 1 : 1;
             });
-        }
-    },
-   test: async(req, res) => {
-        const alper =[{
-            reservation_id:"61234a8a8e0f90691ab34abcd",
-            meetTime:"2:00 PM",
-            Talk:"Talking about GPT-3",
-            emo:[
-                { "count": 5, "emotion": "happy" },
-                { "count": 3, "emotion": "neutral" },
-                { "count": 2, "emotion": "angry" }
-              ],
-            word:"chatbot",
-            comment:"Interesting conversation!"
-            },
-      {
-            reservation_id:"61234a8a8e0f90691ab34abcd",
-            meetTime:"2:00 PM",
-            Talk:"Talking about GPT-3",
-            emo:[
-                { "count": 5, "emotion": "happy" },
-                { "count": 3, "emotion": "neutral" },
-                { "count": 2, "emotion": "angry" }
-              ],
-            word:"chatbot",
-            comment:"Interesting conversation!"
-        },
-       { 
-            reservation_id:"61234a8a8e0f90691ab34abcd",
-            meetTime:"2:00 PM",
-            Talk:"Talking about GPT-3",
-            emo:[
-                { "count": 5, "emotion": "happy" },
-                { "count": 3, "emotion": "neutral" },
-                { "count": 2, "emotion": "angry" }
-              ],
-            word:"chatbot",
-            comment:"Interesting conversation!"
-        },
-        {
-            reservation_id:"61234a8a8e0f90691ab34abcd",
-            meetTime:"2:00 PM",
-            Talk:"Talking about GPT-3",
-            emo:[
-                { "count": 5, "emotion": "happy" },
-                { "count": 3, "emotion": "neutral" },
-                { "count": 2, "emotion": "angry" }
-              ],
-            word:"chatbot",
-            comment:"Interesting conversation!"
-        }]
+            
+            // Sadece farklı kelimeleri seç
+            const uniqueWords = Object.keys(counts);
+            
+            // Farklı kelimelerin sayılarını bul
+            const uniqueWordCounts = uniqueWords.map(word => ({ word, count: counts[word] }));
+            
+            return uniqueWordCounts;
+          }
+          const uniqueWordsWithCounts = findUniqueWordsWithCounts(word.split(','));
         try {
-             alper.map((item)=>(
-                   talkModel.create({              
-                    reservation_id:item.reservation_id,
-                    meetTime:item.meetTime,
-                    Talk:item.Talk,
-                    emo:item.emo,
-                    word:item.word,
-                    comment:item.comment
-                 
-                 })
-             ))
-            
-            
+            const resId = await talkModel.findOne({reservation_id:req.query.reservation_id});
+            const updatedTalk = await talkModel.findByIdAndUpdate( resId._id.toString(),
+            { 
+                meetTime: meetTime, 
+                Talk: Talk,
+                emo: {
+                    anger : {
+                        count: angry
+                    },
+                    sad: {
+                        count: sad
+                    },
+                    happy: {
+                        count: happy
+                    },
+                    surprised: {
+                        count: suprised
+                    },
+                    disgust: {
+                        count: disgust
+                    },
+                    fear: {
+                        count: fear
+                    },
+                    neutral: {
+                        count: neutral
+                    }
+                }, 
+                word: uniqueWordsWithCounts,
+                comment: comment 
+            },
+            { new: true }
+            );
             res.json({
-                status: true,
-                message: 'Added'
-                
+                status:true,
+                message: 'complated',
+                updatedTalk
             })
-        } catch (err) {
-            res.json({
-                status: false,
-                message: 'Not Added',
-                err: err
-            })
-        }
-    },
+            } catch (err) {
+                console.error(err);
+                res.status(500).json({ message: "Internal server error" });
+            }
+            }
 }
 
 module.exports = talkController;

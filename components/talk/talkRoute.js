@@ -4,7 +4,7 @@ const talkController = require('./talkController');
 
 router.post('/add', talkController.add);
 router.get('/find',talkController.find);
-router.post('/test',talkController.test);
+router.put('/put',talkController.put);
 
 
 module.exports = router;

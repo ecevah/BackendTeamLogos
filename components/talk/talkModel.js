@@ -7,20 +7,23 @@ const talkSchema = new Schema({
     reservation_id:{
         type:mongoose.Schema.Types.ObjectId,
         ref:reservationModule,
-        require: true
+        require: true,
+        unique:true
     },
     meetTime:{
-       type:String
+       type:String,
+       default:0
     },
-    Talk:{
-        type:String
-
-    },
-    emo: [
+    Talk:[
         {
+          type:String
+        }
+    ],
+    emo:{
           anger: {
             count: {
-            type: Number
+            type: Number,
+            default: 0
           },
           text: {
             type: String,
@@ -29,7 +32,8 @@ const talkSchema = new Schema({
         },
         happy:{
           count:{
-            type: Number
+            type: Number,
+            default: 0
           },
           text:{
             type:String,
@@ -38,7 +42,8 @@ const talkSchema = new Schema({
         },
         fear:{
           count:{
-            type: Number
+            type: Number,
+            default: 0
           },
           text:{
             type:String,
@@ -47,7 +52,8 @@ const talkSchema = new Schema({
         },
         disgust:{
           count:{
-            type: Number
+            type: Number,
+            default: 0
           },
           text:{
             type:String,
@@ -56,7 +62,8 @@ const talkSchema = new Schema({
         },
         sad:{
           count:{
-            type: Number
+            type: Number,
+            default: 0
           },
           text:{
             type:String,
@@ -65,7 +72,8 @@ const talkSchema = new Schema({
         },
         surprised:{
           count:{
-            type: Number
+            type: Number,
+            default: 0
           },
           text:{
             type:String,
@@ -74,24 +82,21 @@ const talkSchema = new Schema({
         },
         neutral:{
           count:{
-            type: Number
+            type: Number,
+            default: 0
           },
           text:{
             type:String,
             default: ' Nötr'
           }
-        },
-
-        
         }
-      ],
-      
+      },
       word: [
         {
           count: {
             type: Number
           },
-          root: {
+          word: {
             type: String
           }
         }
