@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-mongoose.connect('mongodb+srv://mazlum:qqwwqqww11@cluster0.4molq.mongodb.net/logos?retryWrites=true&w=majority');
+mongoose.connect('MongoDB Connection Link');
 mongoose.connection.on('open', () => {
     console.log("MongoDB: Connected");
 });
